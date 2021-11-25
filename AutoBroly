@@ -1,0 +1,592 @@
+-- [[ Variables ]]
+local Broly = 2050207304
+local Earth = 536102540
+local Queue = 3565304751
+
+-- [[ Load-Check ]]
+repeat
+    wait()
+until game:IsLoaded() and game.Players.LocalPlayer.Character
+game.Players.LocalPlayer.Character:WaitForChild("Ki")
+game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
+game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+
+-- [[ Visuals ]]
+if Settings.FpsBoost == true then
+    local g = game
+    local w = g.Workspace
+    local l = g.Lighting
+    local t = w.Terrain
+    t.WaterWaveSize = 0
+    t.WaterWaveSpeed = 0
+    t.WaterReflectance = 0
+    t.WaterTransparency = 0
+    l.GlobalShadows = false
+    l.FogEnd = 9e9
+    l.Brightness = 0
+    settings().Rendering.QualityLevel = "Level01"
+    for i, v in pairs(g:GetDescendants()) do
+        if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
+            v.Material = "Plastic"
+            v.Reflectance = 0
+        elseif v:IsA("Decal") or v:IsA("Texture") then
+            v.Transparency = 1
+        elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+            v.Lifetime = NumberRange.new(0)
+        elseif v:IsA("Explosion") then
+            v.BlastPressure = 1
+            v.BlastRadius = 1
+        elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") then
+            v.Enabled = false
+        elseif v:IsA("MeshPart") then
+            v.Material = "Plastic"
+            v.Reflectance = 0
+            v.TextureID = 10385902758728957
+        end
+    end
+    for i, e in pairs(l:GetChildren()) do
+        if
+            e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or
+                e:IsA("DepthOfFieldEffect")
+         then
+            e.Enabled = false
+        end
+    end
+end
+
+-- [[ Rejoin if Kicked ]] 
+game.RunService.Stepped:Connect(
+    function()
+        if game:GetService("CoreGui").RobloxPromptGui.promptOverlay:FindFirstChild("ErrorPrompt") then
+            game:GetService("TeleportService"):Teleport(Earth, LocalPlayer) --536102540
+        end
+    end
+)
+wait(Settings.WaitTimer) -- loadin timer
+TableOfBlackPeople = {496782681}
+for i, v in pairs(game.Players:GetChildren()) do
+    if v.Name == game.Players.LocalPlayer.Name then
+        if table.find(TableOfBlackPeople, v.Name) or table.find(TableOfBlackPeople, v.UserId) then
+            v:Kick("Your Black")
+            return
+        end
+    end
+end
+coroutine.resume(coroutine.create(function()
+    if Settings.Advertise then
+        while wait(1) do
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Made By ilJacobli 7922 on discoard, Join Server to Buy auto broly ", "All")
+        end
+    end
+end))
+x = {}
+game.RunService.Stepped:Connect(
+    function()
+        if game.Players.LocalPlayer.Character.Parent ~= game.Workspace.Live or game.Players.LocalPlayer.Character == nil then
+            for _, v in ipairs(
+                game:GetService("HttpService"):JSONDecode(
+                    game:HttpGetAsync(
+                        "https://games.roblox.com/v1/games/" ..
+                            game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+                    )
+                ).data
+            ) do
+                if type(v) == "table" and v.maxPlayers > v.playing and v.id ~= game.JobId then
+                    x[#x + 1] = v.id
+                end
+            end
+            if #x > 0 then
+                game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, x[math.random(1, #x)])
+            else
+                return warn("Serverhop Couldn't find a server.")
+            end
+        elseif
+            game.Players.LocalPlayer.Character.Parent ~= game.Workspace.Live and game.PlaceId == Broly or
+                game.Players.LocalPlayer.Character == nil and game.PlaceId == Broly
+         then
+            game:GetService("TeleportService"):teleport(Earth)
+        end
+    end
+)
+-- [[ Earth Function ]] 
+coroutine.resume(
+    coroutine.create(
+        function()
+            game.StarterGui:SetCore("SendNotification", {["Title"] = "Auto Broly", ["Text"] = "Made By Kyro#1048"})
+        end
+    )
+)
+if game.PlaceId == Earth and Settings.EarthAuto then
+    if Settings.DoubleFreeze then
+        game.Players.LocalPlayer.Character['True']:remove()
+    end
+    lplr = game.Players.LocalPlayer
+    char = lplr.Character
+    game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
+    char.PowerOutput:remove()
+    if Settings.Advertise == false then
+        char.HumanoidRootPart.CFrame =CFrame.new(-3452.08228,100.441521,607.942871)
+    end
+    wait(.5)
+    game.Players.LocalPlayer.Character.Humanoid.Animator:Destroy()
+    for i, v in pairs(char:GetChildren()) do
+        if v.ClassName == "Model" then
+            v:remove() -- PowerOutput and Root to destroy, making us invisible and destroying our level
+        end
+    end
+    if Settings.Advertise == false then
+        for i, v in pairs(char:GetChildren()) do
+            if v:FindFirstChild("Root") then
+                v.Root:remove()
+            end
+        end
+    end
+     --
+    --[[for i, v in pairs(char.HumanoidRootPart:GetChildren()) do
+        v:remove()
+    end]] wait(.5)
+    game.RunService.Stepped:Connect(
+        function()
+            if game.Players.LocalPlayer.Character.Humanoid.Sit == true then
+                game.Players.LocalPlayer.Character.Humanoid.Sit = false
+            end
+            if game.Players.LocalPlayer.PlayerGui.HUD.Bottom.SP.Visible == false then
+                game.Players.LocalPlayer.PlayerGui.HUD.Bottom.SP.Visible = true
+            else
+                game.Players.LocalPlayer.PlayerGui.HUD.Bottom.SP.Visible = true
+            end
+        end
+    )
+    heh = Instance.new("Humanoid", char)
+    game.RunService.Stepped:Connect(
+        function()
+            char.HumanoidRootPart.CFrame =
+                CFrame.new(
+                2751.42627,
+                3946.05981,
+                -2273.88989,
+                0.026212357,
+                0,
+                0.999656379,
+                -0,
+                1.00000012,
+                -0,
+                -0.999656498,
+                0,
+                0.0262123533
+            ) -- teleport to pad
+            for i, v in pairs(game.Workspace.BrolyTeleport:GetChildren()) do
+                if v:FindFirstChild("Head") or v:FindFirstChild("Humanoid") then
+                    game.Players.LocalPlayer.PlayerGui.HUD.Bottom.SP.Text =
+                        "Broly Timer: " ..
+                        v.Name .. " | Level: " .. game.Players.LocalPlayer.PlayerGui.HUD.Bottom.Stats.LVL.Val.Text
+                end
+            end
+        end
+    )
+    while wait(63) do
+        --failsafe
+        x = {}
+        for _, v in ipairs(
+            game:GetService("HttpService"):JSONDecode(
+                game:HttpGetAsync(
+                    "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+                )
+            ).data
+        ) do
+            if type(v) == "table" and v.maxPlayers > v.playing and v.id ~= game.JobId then
+                x[#x + 1] = v.id
+            end
+        end
+        if #x > 0 then
+            game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, x[math.random(1, #x)])
+        else
+            return warn("Serverhop Couldn't find a server :=)")
+        end
+    end
+
+-- [[ Queue Function ]] 
+elseif game.PlaceId == Earth and Settings.EarthAuto == false then
+    game.TeleportService:teleport(Queue)
+elseif game.PlaceId == Queue and Settings.EarthAuto == false then
+    local pads
+    local speed
+    if Settings.DoubleFreeze then
+        game.Players.LocalPlayer.Character['True']:remove()
+    end
+    for i, v in pairs(game.Players.LocalPlayer.Character:children()) do
+        if v.Name == "PowerOutput" or v.ClassName == "Model" then
+            v:remove()
+        end
+    end
+    if Settings.Advertise == true then
+        pads = math.random(1,1)
+        Settings.Invisible = false
+        speed = 0.4
+    else
+        speed = .8
+        pads = math.random(1,7)
+    end
+    if Settings.Invisible then
+        game:GetService("TweenService"):Create(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            TweenInfo.new(0.8, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+            {CFrame = CFrame.new(845.690674, 238.600006, -974.818237)}
+        ):Play()
+    end
+    wait(0.8)
+    if Settings.Invisible then
+        for i, v in pairs(game.Players.LocalPlayer.Character:children()) do
+            if v:FindFirstChild("Root") then
+                v.Root:remove()
+            end
+        end
+    end
+    if pads == 1 then
+        game:GetService("TweenService"):Create(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            TweenInfo.new(speed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+            {
+                CFrame = CFrame.new(-27.2137909, 235.029785, -147.400574) * CFrame.new(0, 2, 0)
+            }
+        ):Play()
+    elseif pads == 2 then
+        game:GetService("TweenService"):Create(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            TweenInfo.new(speed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+            {
+                CFrame = CFrame.new(-27.2137909, 235.029785, -291.400574) * CFrame.new(0, 2, 0)
+            }
+        ):Play()
+    elseif pads == 3 then
+        game:GetService("TweenService"):Create(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            TweenInfo.new(speed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+            {
+                CFrame = CFrame.new(-27.2137909, 235.029785, -423.400574) * CFrame.new(0, 2, 0)
+            }
+        ):Play()
+    elseif pads == 4 then
+        game:GetService("TweenService"):Create(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            TweenInfo.new(speed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+            {
+                CFrame = CFrame.new(-27.2137909, 235.029785, -589.400574) * CFrame.new(0, 2, 0)
+            }
+        ):Play()
+    elseif pads == 5 then
+        game:GetService("TweenService"):Create(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            TweenInfo.new(speed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+            {
+                CFrame = CFrame.new(-27.2137909, 235.029785, -731.400574) * CFrame.new(0, 2, 0)
+            }
+        ):Play()
+    elseif pads == 6 then
+        game:GetService("TweenService"):Create(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            TweenInfo.new(speed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+            {
+                CFrame = CFrame.new(-27.2137909, 235.029785, -883.400574) * CFrame.new(0, 2, 0)
+            }
+        ):Play()
+    elseif pads == 7 then
+        game:GetService("TweenService"):Create(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            TweenInfo.new(speed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out),
+            {
+                CFrame = CFrame.new(-27.2137909, 235.029785, -1050.40063) * CFrame.new(0, 2, 0)
+            }
+        ):Play()
+    end
+    wait(0.9)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+    while wait(63) do
+        game.TeleportService:teleport(Queue)
+    end
+elseif game.PlaceId == Broly then
+    lplr = game.Players.LocalPlayer
+    char = lplr.Character
+    wait()
+    if char.Race.Value ~= "Android" then
+        local um = {[1] = "x"}
+        local umm = CFrame.new(0, 0, 0)
+        local ummm = nil -- Path contained invalid instance
+        game.Players.LocalPlayer.Backpack.ServerTraits.Input:FireServer(um, umm, ummm)
+        wait(Settings.Transformation.ChargeTime)
+        game.Players.LocalPlayer.Backpack.ServerTraits.Transform:FireServer(Settings.Transformation.Form)
+        wait(0.5)
+        local A_1 = {
+            [1] = "xoff"
+        }
+        local A_2 = CFrame.new(0, 0, 0)
+        local A_3 = nil -- Path contained invalid instance
+        game.Players.LocalPlayer.Backpack.ServerTraits.Input:FireServer(A_1, A_2, A_3)
+        print("Transformed")
+    end
+    --Instance.new("Humanoid", game.Players.LocalPlayer.Character)
+    oldframes = game.Workspace.Live["Broly BR"].HumanoidRootPart.CFrame * CFrame.new(0, 0, 2)
+    wait(0.8)
+    function NoClipLOL()
+        for _, child in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+            if child:IsA("BasePart") and child.CanCollide == true and child.Name ~= floatName then
+                child.CanCollide = false
+            end
+        end
+    end
+    game.RunService.Stepped:Connect(NoClipLOL)
+    game.Workspace.CurrentCamera.FieldOfView = Settings.FOV
+    if Settings.AntiLeech and Settings.EarthAuto == true then
+        if #game.Players:GetPlayers() >= 2 then
+            game:GetService("TeleportService"):teleport(Earth)
+        end
+    elseif Settings.AntiLeech and Settings.EarthAuto == false then
+        if #game.Players:GetPlayers() >= 2 then
+            game:GetService("TeleportService"):teleport(Queue)
+        end
+    end
+    coroutine.resume(coroutine.create(function()
+        if Settings.DoubleFreeze then
+            char['True']:remove()
+        end
+    end))
+    oldKi = game.Workspace.Live[lplr.Name].Ki.Value
+    coroutine.resume(
+        coroutine.create(
+            function()
+                _G.Timer = Settings.RejoinTimer
+                for i = Settings.RejoinTimer, 0, -1 do
+                    _G.Timer = _G.Timer - 1
+                    if i <= 1 then
+                        game:GetService("TeleportService"):teleport(Earth)
+                    end
+                    wait(1.1)
+                end
+            end
+        )
+    )
+    LOL = CFrame.new(-17.8960724, -126.250069, -13.1639671)
+    Camera = game.Workspace.CurrentCamera
+    game.RunService.Stepped:Connect(
+        function()
+            if game.Players.LocalPlayer.PlayerGui.HUD.Bottom.SP.Visible == false then
+                game.Players.LocalPlayer.PlayerGui.HUD.Bottom.SP.Visible = true
+            else
+                game.Players.LocalPlayer.PlayerGui.HUD.Bottom.SP.Visible = true
+            end
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = LOL
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = LOL
+            --game.Players.LocalPlayer.Character["Trash?"].Activator.BoneBreak:remove()
+            --game.Players.LocalPlayer.Character["Trash?"].Activator.Blocked:remove()
+            --game.Players.LocalPlayer.Character["Trash?"].Activator.Hit1:remove()
+            game.Players.LocalPlayer.Character["Dragon Throw"].Activator["Flip"]:remove()
+        end
+    )
+    coroutine.resume(
+        coroutine.create(
+            function()
+                wait(Settings.GrabChecker)
+                if game.Workspace.Live["Broly BR"].Humanoid.MaxHealth > 1890 then
+                    print("Broly is grabbed")
+                else
+                    game:GetService("TeleportService"):teleport(536102540)
+                end
+            end
+        )
+    )
+    game.RunService.Stepped:Connect(
+        function()
+            if game.Players.LocalPlayer.Character.Humanoid.Health <= 120 then
+                game.Players.LocalPlayer.Backpack.ServerTraits.Transform:FireServer("h")
+            end
+            for ip, p in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                if p:FindFirstChild("Mesh") and p:FindFirstChild("Ki") then
+                    p.CFrame = game.Workspace.Live["Broly BR"].HumanoidRootPart.CFrame
+                --wait()
+                end
+            end
+            for F, H in pairs(game.Workspace:GetChildren()) do
+                if H:FindFirstChild("Mesh") and H:FindFirstChild("Ki") then
+                    H.CFrame = game.Workspace.Live["Broly BR"].HumanoidRootPart.CFrame
+                --wait()
+                end
+            end
+            for scripts, suck in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                if suck:FindFirstChild("Targeter") then
+                    local A_1 = game:GetService("Workspace").Live["Broly BR"]
+                    local Event = game:GetService("Workspace").Live[game.Players.LocalPlayer.Name][suck].Targeter
+                    Event:FireServer(A_1)
+                end
+            end
+            game.Players.LocalPlayer.PlayerGui.HUD.Bottom.SP.Text =
+                "Brolies Health: " ..
+                math.ceil(game:GetService("Workspace").Live["Broly BR"].Humanoid.Health) ..
+                    " | Players Health: " ..
+                        math.floor(game.Players.LocalPlayer.Character.Humanoid.Health) ..
+                            " | Level: " ..
+                                game.Players.LocalPlayer.PlayerGui.HUD.Bottom.Stats.LVL.Val.Text ..
+                                    " | Timer: " .. _G.Timer .. "/" .. (Settings.RejoinTimer)
+            for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                if v.Name == "Justice Combination" then
+                    action = game.Players.LocalPlayer.Character:WaitForChild("Action")
+                    if action then
+                        wait()
+                        action:Destroy()
+                    end
+                end
+                if v.Name == "Action" then
+                    v:Destroy()
+                end
+                if v.Name == "Attacking" then
+                    v:Destroy()
+                end
+                if v.Name == "Using" then
+                    v:Destroy()
+                end
+                if v.Name == "hyper" then
+                    v:Destroy()
+                end
+                if v.Name == "Tele" then
+                    v:Destroy()
+                end
+                if v.Name == "Hyper" then
+                    v:Destroy()
+                end
+                if v.Name == "KiBlasted" then
+                    v:Destroy()
+                end
+                if v.Name == "heavy" then
+                    v:destroy()
+                end
+                if v.Name == "Killed" then
+                    v:destroy()
+                end
+                if v.Name == "Slow" then
+                    v:Destroy()
+                end
+                if v.Name == "Block" then
+                    if v.Value == true then
+                        v.Value = false
+                    end
+                end
+            end
+            --game.Workspace.CurrentCamera.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+            game.Workspace.Live["Broly BR"].HumanoidRootPart.Anchored = true
+            --game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+            Lmfao = math.random(1, #Settings.Moves)
+        end
+    )
+    wait(0.2)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+    wait(1.3)
+    plr = game.Players.LocalPlayer
+    game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack["Dragon Throw"])
+    game.Players.LocalPlayer.Character["Dragon Throw"]:Activate()
+    wait(.5)
+    game.Players.LocalPlayer.Character["Dragon Throw"]:Deactivate()
+    --wait(.3)
+    wait(.8)
+    if Settings.TeamDamage then
+        game:GetService("Workspace").Live[plr.Name]["team damage"]:Destroy()
+    end
+    coroutine.resume(
+        coroutine.create(
+            function()
+                if Settings.LateTransformation == true and plr.Character.Race.Value == "Android" then
+                    game.RunService.Stepped:Connect(
+                        function()
+                            if plr.Character.Ki.Value / oldKi * 100 <= 70 then
+                                game.Players.LocalPlayer.Backpack.ServerTraits.Transform:FireServer("g")
+                            end
+                        end
+                    )
+                elseif plr.Character.Race.Value == "Android" and Settings.LateTransformation == false then
+                    game.RunService.Stepped:Connect(
+                        function()
+                            game:GetService("Players").LocalPlayer.Backpack.ServerTraits.Transform:FireServer("g")
+                        end
+                    )
+                end
+            end
+        )
+    )
+    Camera = game.Workspace.CurrentCamera
+    if Settings.TrackBroly then
+        game.RunService.Stepped:Connect(
+            function()
+                Camera.CFrame =
+                    CFrame.new(Camera.CFrame.Position, game.Workspace.Live["Broly BR"].HumanoidRootPart.Position)
+            end
+        )
+    end
+    --wait(0.9)
+    game.RunService.Stepped:connect(
+        function()
+            lplr = game.Players.LocalPlayer
+            char = lplr.Character
+            for i, v in pairs(lplr.Backpack:GetChildren()) do
+                if
+                    v.Name == Move1 or v.Name == Move2 or v.Name == Move3 or v.Name == Move5 or v.Name == Move6 or
+                        v.Name == Move7 or
+                        v.Name == Move8 or
+                        v.Name == Move9 or
+                        v.Name == Move10
+                 then
+                    v.Parent = char
+                    v:Activate()
+                    wait(0.01)
+                    v:Deactivate()
+                    v.Parent = lplr.Backpack
+                end
+            end
+    game.Players.LocalPlayer.Backpack.ServerTraits.EatSenzu:FireServer("")
+        end
+    )
+    while wait() do
+        game.Players.LocalPlayer.Backpack.ServerTraits.Assist:FireServer()
+        if Settings.RightClick then
+            if char.Ki.Value <= 60 then
+                local A_1 = {[1] = "m2"}
+                local A_2 = CFrame.new(0, 0, 0)
+                local A_3 = nil
+                local A_4 = false
+                local Event = lplr.Backpack.ServerTraits.Input
+                Event:FireServer(A_1, A_2, A_3, A_4)
+                local A_1 = {[1] = "m2"}
+                local A_2 = CFrame.new(0, 0, 0)
+                local A_3 = nil
+                local A_4 = false
+                local Event = lplr.Backpack.ServerTraits.Input
+                Event:FireServer(A_1, A_2, A_3, A_4)
+                local A_1 = {[1] = "m2"}
+                local A_2 = CFrame.new(0, 0, 0)
+                local A_3 = nil
+                local A_4 = false
+                local Event = lplr.Backpack.ServerTraits.Input
+                Event:FireServer(A_1, A_2, A_3, A_4)
+            end
+        end
+        if
+            game.Players.LocalPlayer.Character.Humanoid.Health <= 0.1 and Settings.EarthAuto or
+                game.Workspace.Live["Broly BR"].Humanoid == nil and Settings.EarthAuto or
+                game.Workspace.Live["Broly BR"].Humanoid.Health <= 0 and Settings.EarthAuto
+         then
+            wait(0.5)
+            game:GetService("TeleportService"):teleport(Earth)
+        elseif
+            game.Players.LocalPlayer.Character.Humanoid.Health <= 0.1 and Settings.EarthAuto == false or
+                game.Workspace.Live["Broly BR"].Humanoid == nil and Settings.EarthAuto == false or
+                game.Workspace.Live["Broly BR"].Humanoid.Health <= 0 and Settings.EarthAuto == false
+         then
+            wait(0.5)
+            game:GetService("TeleportService"):Teleport(3565304751)
+         end
+        if Settings.AutoStats.Enable then
+            game.Players.LocalPlayer.Backpack.ServerTraits.AttemptUpgrade:FireServer(
+                game.Players.LocalPlayer.PlayerGui.HUD.Bottom.Stats[Settings.AutoStats.Add]
+            )
+        end
+    end
+elseif game.PlaceId ~= Earth or game.PlaceId ~= Broly and game.PlaceId ~= Queue then
+    game:GetService("TeleportService"):teleport(Earth)
+end
